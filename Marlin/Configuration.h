@@ -89,7 +89,7 @@
 #define SHOW_BOOTSCREEN
 
 // Show the bitmap in Marlin/_Bootscreen.h on startup.
-//#define SHOW_CUSTOM_BOOTSCREEN
+#define SHOW_CUSTOM_BOOTSCREEN
 
 // Show the bitmap in Marlin/_Statusscreen.h on the status screen.
 //#define CUSTOM_STATUS_SCREEN_IMAGE
@@ -261,7 +261,6 @@
 #define MAGNETIC_SWITCHING_TOOLHEAD
 
 
-
 /**
  * GeitPrinter Magnetic Switching Toolhead
  *
@@ -276,9 +275,9 @@
 
   #define SWITCHING_TOOLHEAD_GEITPRINTER
 
-  #define GPTC_TOOLHEAD_DOCKINGBAY_Y_POS       230  /*330*/               // (mm) toolhead dock savezone
-  #define GPTC_TOOLHEAD_DOCKINGBAY_X_POS     {35, 135, 235, 335 } // (mm) toolhead dock/undock starting point
-  #define GPTC_TOOLHEAD_DOCKINGBAY_TRAVEL       4000 // from outside to the docking bay y pos */
+  #define GPTC_TOOLHEAD_DOCKINGBAY_Y_POS       334   // (mm) toolhead dock savezone
+  #define GPTC_TOOLHEAD_DOCKINGBAY_X_POS     {38, 138, 238, 338 } // (mm) toolhead dock/undock starting point (mount point)
+  #define GPTC_TOOLHEAD_DOCKINGBAY_TRAVEL       6000 // from outside to the docking bay y pos */
 
 /**
  *  The following movements are all relative to the GPTC_TOOLHEAD_DOCKINGBAY_X_POS / 
@@ -304,13 +303,13 @@
  * The arrays size gets detected by using an zero feed rate.
 */
 
-  #define GPTC_TOOLHEAD_MOVEMENT_DOCKING_X     {    0,     1,     1,     0,     0,     8,     8 }
-  #define GPTC_TOOLHEAD_MOVEMENT_DOCKING_Y     {    0,     0,    34,    34,    50,    50,     0 }
-  #define GPTC_TOOLHEAD_MOVEMENT_DOCKING_F     { 4000,   400,   400,   400,   800,   800,  4000, 0 }
+  #define GPTC_TOOLHEAD_MOVEMENT_DOCKING_X     {    -2,    -2,    -1,     0,     0,     8,     8 }
+  #define GPTC_TOOLHEAD_MOVEMENT_DOCKING_Y     {     0,    33,    34,    35,    50,    50,     0 }
+  #define GPTC_TOOLHEAD_MOVEMENT_DOCKING_F     {  6000,   800,   800,   800,  6000,  6000,  6000, 0 }
 
-  #define GPTC_TOOLHEAD_MOVEMENT_UNDOCKING_X   {    0,     8,     8,     0,     0,    -1,    -1 }
-  #define GPTC_TOOLHEAD_MOVEMENT_UNDOCKING_Y   {    0,     0,    50,    50,    34,    34,    00 }
-  #define GPTC_TOOLHEAD_MOVEMENT_UNDOCKING_F   { 4000,   400,  1000,   400,   400,   400,  4000, 0 }
+  #define GPTC_TOOLHEAD_MOVEMENT_UNDOCKING_X   {     8,     8,     0,     0,    -1,    -2,    -2 }
+  #define GPTC_TOOLHEAD_MOVEMENT_UNDOCKING_Y   {     0,    50,    50,    35,    34,    33,     0 }
+  #define GPTC_TOOLHEAD_MOVEMENT_UNDOCKING_F   {  6000,  6000,   800,   800,   800,   800,  6000, 0 }
 
 /* Somehow this z hop distance is required to build. Need to investigate */
 
@@ -526,7 +525,7 @@
 #define HEATER_5_MAXTEMP 275
 #define HEATER_6_MAXTEMP 275
 #define HEATER_7_MAXTEMP 275
-#define BED_MAXTEMP      150
+#define BED_MAXTEMP      90
 
 //===========================================================================
 //============================= PID Settings ================================
@@ -540,8 +539,8 @@
 #define PID_K1 0.95      // Smoothing factor within any PID loop
 
 #if ENABLED(PIDTEMP)
-  //#define PID_EDIT_MENU         // Add PID editing to the "Advanced Settings" menu. (~700 bytes of PROGMEM)
-  //#define PID_AUTOTUNE_MENU     // Add PID auto-tuning to the "Advanced Settings" menu. (~250 bytes of PROGMEM)
+  #define PID_EDIT_MENU         // Add PID editing to the "Advanced Settings" menu. (~700 bytes of PROGMEM)
+  #define PID_AUTOTUNE_MENU     // Add PID auto-tuning to the "Advanced Settings" menu. (~250 bytes of PROGMEM)
   //#define PID_PARAMS_PER_HOTEND // Uses separate PID parameters for each extruder (useful for mismatched extruders)
                                   // Set/get with gcode: M301 E[extruder number, 0-2]
 
@@ -752,16 +751,16 @@
  *          TMC5130, TMC5130_STANDALONE, TMC5160, TMC5160_STANDALONE
  * :['A4988', 'A5984', 'DRV8825', 'LV8729', 'L6470', 'L6474', 'POWERSTEP01', 'TB6560', 'TB6600', 'TMC2100', 'TMC2130', 'TMC2130_STANDALONE', 'TMC2160', 'TMC2160_STANDALONE', 'TMC2208', 'TMC2208_STANDALONE', 'TMC2209', 'TMC2209_STANDALONE', 'TMC26X', 'TMC26X_STANDALONE', 'TMC2660', 'TMC2660_STANDALONE', 'TMC5130', 'TMC5130_STANDALONE', 'TMC5160', 'TMC5160_STANDALONE']
  */
-//#define X_DRIVER_TYPE  TMC2209
-//#define Y_DRIVER_TYPE  TMC2209
-//#define Z_DRIVER_TYPE  TMC2209
+#define X_DRIVER_TYPE  TMC2209
+#define Y_DRIVER_TYPE  TMC2209
+#define Z_DRIVER_TYPE  TMC2209
 //#define X2_DRIVER_TYPE A4988
 //#define Y2_DRIVER_TYPE A4988
 //#define Z2_DRIVER_TYPE A4988
 //#define Z3_DRIVER_TYPE A4988
 //#define Z4_DRIVER_TYPE A4988
-//#define E0_DRIVER_TYPE TMC2209
-//#define E1_DRIVER_TYPE TMC2209
+#define E0_DRIVER_TYPE TMC2209
+#define E1_DRIVER_TYPE TMC2209
 //#define E2_DRIVER_TYPE A4988
 //#define E3_DRIVER_TYPE A4988
 //#define E4_DRIVER_TYPE A4988
@@ -808,21 +807,21 @@
  * following movement settings. If fewer factors are given than the
  * total number of extruders, the last value applies to the rest.
  */
-//#define DISTINCT_E_FACTORS
+#define DISTINCT_E_FACTORS
 
 /**
  * Default Axis Steps Per Unit (steps/mm)
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 79.64, 4059.88, 500 }
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 79.64, 1200.1, 100, 100 }
 
 /**
  * Default Max Feed Rate (mm/s)
  * Override with M203
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 300, 300, 5, 25 }
+#define DEFAULT_MAX_FEEDRATE          { 300, 300, 5, 25, 25 }
 
 //#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
@@ -835,7 +834,7 @@
  * Override with M201
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_ACCELERATION      { 3000, 3000, 100, 10000 }
+#define DEFAULT_MAX_ACCELERATION      { 3000, 3000, 100, 10000, 10000 }
 
 //#define LIMITED_MAX_ACCEL_EDITING     // Limit edit via M201 or LCD to DEFAULT_MAX_ACCELERATION * 2
 #if ENABLED(LIMITED_MAX_ACCEL_EDITING)
@@ -1168,8 +1167,8 @@
 // @section extruder
 
 // For direct drive extruder v9 set to true, for geared extruder set to false.
-#define INVERT_E0_DIR false
-#define INVERT_E1_DIR false
+#define INVERT_E0_DIR true
+#define INVERT_E1_DIR true
 #define INVERT_E2_DIR false
 #define INVERT_E3_DIR false
 #define INVERT_E4_DIR false
@@ -1424,7 +1423,7 @@
 #endif
 
 // Add a menu item to move between bed corners for manual bed adjustment
-//#define LEVEL_BED_CORNERS
+#define LEVEL_BED_CORNERS
 
 #if ENABLED(LEVEL_BED_CORNERS)
   #define LEVEL_CORNERS_INSET_LFRB { 30, 30, 30, 30 } // (mm) Left, Front, Right, Back insets
@@ -1546,7 +1545,7 @@
  *   M502 - Revert settings to "factory" defaults. (Follow with M500 to init the EEPROM.)
  */
 #define EEPROM_SETTINGS     // Persistent storage with M500 and M501
-#define DISABLE_M503        // Saves ~2700 bytes of PROGMEM. Disable for release!
+//#define DISABLE_M503        // Saves ~2700 bytes of PROGMEM. Disable for release!
 #define EEPROM_CHITCHAT       // Give feedback on EEPROM commands. Disable to save PROGMEM.
 #define EEPROM_BOOT_SILENT    // Keep M503 quiet and only give errors during first load
 #if ENABLED(EEPROM_SETTINGS)
@@ -1658,8 +1657,8 @@
 
   // Specify positions for each tool as { { X, Y, Z }, { X, Y, Z } }
   // Dual hotend system may use { {  -20, (Y_BED_SIZE / 2), (Z_MIN_POS + 1) },  {  420, (Y_BED_SIZE / 2), (Z_MIN_POS + 1) }}
-  #define NOZZLE_CLEAN_START_POINT { { 100, 230, (Z_MIN_POS + 1) } }
-  #define NOZZLE_CLEAN_END_POINT   { { 120, 245, (Z_MIN_POS + 1) } }
+  #define NOZZLE_CLEAN_START_POINT { {   4, 290, (Z_MIN_POS + 1) } }
+  #define NOZZLE_CLEAN_END_POINT   { {  16, 245, (Z_MIN_POS + 1) } }
 
   // Circular pattern radius
   #define NOZZLE_CLEAN_CIRCLE_RADIUS 6.5
@@ -1863,8 +1862,8 @@
 // Note: Test audio output with the G-Code:
 //  M300 S<frequency Hz> P<duration ms>
 //
-//#define LCD_FEEDBACK_FREQUENCY_DURATION_MS 2
-//#define LCD_FEEDBACK_FREQUENCY_HZ 5000
+#define LCD_FEEDBACK_FREQUENCY_DURATION_MS 2
+#define LCD_FEEDBACK_FREQUENCY_HZ 5000
 
 //=============================================================================
 //======================== LCD / Controller Selection =========================
