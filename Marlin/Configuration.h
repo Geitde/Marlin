@@ -264,27 +264,32 @@
 /**
  * GeitPrinter Magnetic Switching Toolhead
  *
- * GeitPrinter needs a specific docking and undocking
- * movement involving x, y and f.
+ * GeitPrinter needs specific docking and undocking movements involving x, y and f.
+ * That is the reason why the existing tool changing function couldn´t be used here.
  *
- * We use different array names for storing coords to not 
- * get confused with the existing ones. We can change this
- * later on
  */
 #if ANY(MAGNETIC_SWITCHING_TOOLHEAD)
 
   #define SWITCHING_TOOLHEAD_GEITPRINTER
 
-  #define GPTC_TOOLHEAD_DOCKINGBAY_Y_POS       334   // (mm) toolhead dock savezone
+  #define GPTC_TOOLHEAD_DOCKINGBAY_Y_POS       334   // (mm) toolhead dock safezone location
   #define GPTC_TOOLHEAD_DOCKINGBAY_X_POS     {38, 138, 238, 338 } // (mm) toolhead dock/undock starting point (mount point)
-  #define GPTC_TOOLHEAD_DOCKINGBAY_TRAVEL       6000 // from outside to the docking bay y pos */
+  #define GPTC_TOOLHEAD_DOCKINGBAY_TRAVEL       6000 // from outside to the docking bay safezone pos */
 
 /**
- *  The following movements are all relative to the GPTC_TOOLHEAD_DOCKINGBAY_X_POS / 
+ *
+ * When the "safezone" is mentioned then this is a specific y position 
+ * (GPTC_TOOLHEAD_DOCKINGBAY_X_POS) next to all parking ports, where the tool
+ * head can move free on the x asis without colliding with any parked heads.
+ * It basically marks the last y spot where this is possible without colliding.
+ *
+ *  The following movements are all relative to the GPTC_TOOLHEAD_DOCKINGBAY_X_POS[] / 
  *  GPTC_TOOLHEAD_DOCKINGBAY_Y_POS positions.
  *
- *  So simply use the x/y base and then add the arrays contents to make it the current docking bay position 
- *  until the feed rate is zero.
+ *  So it simply uses the x/y base and then adds the arrays contents to make it the current docking bay position 
+ *  until the feed rate is zero. THIS IS NOT INCREMENTAL!!! Each offset in the array is based on the docking/undocking
+ *  starting point. So an "X1,2" does not mean move 1mm and then 2mm. It means move 1 and then another 1mm.
+ *  GPTC_TOOLHEAD_DOCKINGBAY_X_POS[x]+1 and then GPTC_TOOLHEAD_DOCKINGBAY_X_POS[x]+2
  *
  * ADDITIONAL NOTES:
  *
@@ -293,12 +298,12 @@
  * against the tool mount arm and fixate it. The negative values in the table below will compensate the additional space 
  * taken by the separator nodge. This way it is easy to calibrate the hardware if a separator mount needs to be replaced.
  * 
- * X and Y are delta values from save docking/undocking start point.
+ * As mentioned above the X and Y values are delta values from the safe zone docking/undocking start points.
  *
- * To prevent diagonal movements you must enture that only x or y changes at a time.
+ * To prevent diagonal movements you must ensure that only x or y changes at a time.
  * 
- * First and last entry of x/y table should be zero, which is the save docking bay point before the tool. This avoids 
- * breaking the separator mounts.
+ * First and last entry of Y table should be zero, which is the safe zone docking bay point before the tool. This avoids 
+ * breaking the separator mounts when moving between the parking positions.
  *
  * The arrays size gets detected by using an zero feed rate.
 */
