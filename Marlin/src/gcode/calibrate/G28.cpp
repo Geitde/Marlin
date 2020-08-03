@@ -332,6 +332,8 @@ void GcodeSuite::G28() {
     if (ENABLED(HOME_Y_BEFORE_X) && (doY || (ENABLED(CODEPENDENT_XY_HOMING) && doX)))
       homeaxis(Y_AXIS);
 
+    safe_delay(500); /* fixes sensorless homing triggered by prior movement of the other axis */
+    
     // Home X
     if (doX || (doY && ENABLED(CODEPENDENT_XY_HOMING) && DISABLED(HOME_Y_BEFORE_X))) {
 
@@ -359,7 +361,7 @@ void GcodeSuite::G28() {
 
       #endif
     }
-
+    safe_delay(500); /* fixes sensorless homing triggered by prior movement of the other axis */
     // Home Y (after X)
     if (DISABLED(HOME_Y_BEFORE_X) && doY)
       homeaxis(Y_AXIS);
