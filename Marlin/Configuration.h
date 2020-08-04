@@ -272,13 +272,13 @@
 
   #define SWITCHING_TOOLHEAD_GEITPRINTER
 
-  #define GPTC_TOOLHEAD_DOCKINGBAY_Y_POS       334   // (mm) toolhead dock safezone location
+  #define GPTC_TOOLHEAD_DOCKINGBAY_Y_POS       334   // (mm) toolhead dock safe zone location
   #define GPTC_TOOLHEAD_DOCKINGBAY_X_POS     {38, 138, 238, 338 } // (mm) toolhead dock/undock starting point (mount point)
   #define GPTC_TOOLHEAD_DOCKINGBAY_TRAVEL       6000 // from outside to the docking bay safezone pos */
 
 /**
  *
- * When the "safezone" is mentioned then this is a specific y position 
+ * When the "safe zone" is mentioned then this is a specific y position 
  * (GPTC_TOOLHEAD_DOCKINGBAY_X_POS) next to all parking ports, where the tool
  * head can move free on the x asis without colliding with any parked heads.
  * It basically marks the last y spot where this is possible without colliding.
@@ -651,7 +651,7 @@
  * Note: For Bowden Extruders make this large enough to allow load/unload.
  */
 #define PREVENT_LENGTHY_EXTRUDE
-#define EXTRUDE_MAXLENGTH 800
+#define EXTRUDE_MAXLENGTH 890
 
 //===========================================================================
 //======================== Thermal Runaway Protection =======================
@@ -819,7 +819,7 @@
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 79.64, 1200.1, 100, 100 }
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 1200.1, 102, 100 }
 
 /**
  * Default Max Feed Rate (mm/s)
@@ -1581,7 +1581,7 @@
 
 // Preheat Constants
 #define PREHEAT_1_LABEL       "PLA"
-#define PREHEAT_1_TEMP_HOTEND 205
+#define PREHEAT_1_TEMP_HOTEND 215
 #define PREHEAT_1_TEMP_BED     65
 #define PREHEAT_1_FAN_SPEED     0 // Value from 0 to 255
 
