@@ -367,7 +367,61 @@ inline void fast_line_to_current(const AxisEnum fr_axis) { _line_to_current(fr_a
 
 #endif // PARKING_EXTRUDER
 
-#if ENABLED(SWITCHING_TOOLHEAD)
+#if ENABLED(SWITCHING_TOOLHEAD_GEITPRINTER)
+
+//############################################################################################################
+
+  inline void magnetic_switching_toolhead_tool_change(const uint8_t new_tool, bool no_move/*=false*/) {
+    if (no_move) return;
+
+    constexpr float toolheadposx[] = GPTC_TOOLHEAD_DOCKINGBAY_X_POS,
+                    toolheadposy   = GPTC_TOOLHEAD_DOCKINGBAY_Y_POS;
+    constexpr float dockingdiffx[] = GPTC_TOOLHEAD_MOVEMENT_DOCKING_X,
+                    dockingdiffy[] = GPTC_TOOLHEAD_MOVEMENT_DOCKING_Y,
+                    dockingfeed[]  = GPTC_TOOLHEAD_MOVEMENT_DOCKING_F,
+                  undockingdiffx[] = GPTC_TOOLHEAD_MOVEMENT_UNDOCKING_X,
+                  undockingdiffy[] = GPTC_TOOLHEAD_MOVEMENT_UNDOCKING_Y,
+                  undockingfeed[]  = GPTC_TOOLHEAD_MOVEMENT_UNDOCKING_F;
+    unsigned int i;
+
+//    #define UIBUFFER_SIZEOF 0x40
+//    char uibuffer[ UIBUFFER_SIZEOF ];
+    /**
+     * 1. Move to docking bay district
+     * 2. dock active extruder 
+     * 3. undock new extruder 
+     */
+    ui.set_status( "Toolchange in progress" );
+
+ /* 2. dock active extruder */
+
+    for( i = 0 ; dockingfeed[ i ] ; i++ ) {
+        current_position.x = toolheadposx[ active_extruder ]  + dockingdiffx[ i ];
+        current_position.y = toolheadposy                     + dockingdiffy[ i ];
+//        sprintf_P( uibuffer, "Dock: T%d: %d/%d", active_extruder, (int) current_position.x, (int) current_position.y );
+//        ui.set_status( uibuffer );
+        line_to_current_position( MMM_TO_MMS( dockingfeed[ i ] ) );
+        planner.synchronize();
+    }
+
+/* 3. undock new tool */
+
+    for( i = 0 ; undockingfeed[ i ] ; i++ ) {
+        current_position.x = toolheadposx[ new_tool ]         + undockingdiffx[ i ];
+        current_position.y = toolheadposy                     + undockingdiffy[ i ];
+//        sprintf_P( uibuffer, "Undock: T%d: %d/%d", new_tool, (int) current_position.x, (int) current_position.y );
+//        ui.set_status( uibuffer );
+        line_to_current_position( MMM_TO_MMS( undockingfeed[ i ] ) );
+        planner.synchronize();
+    }
+
+    //planner.synchronize();        // Always sync the final move
+    ui.set_status( "Toolchange complete!" );
+
+  }
+//############################################################################################################
+
+#elif ENABLED(SWITCHING_TOOLHEAD)
 
   inline void swt_lock(const bool locked=true) {
     const uint16_t swt_angles[2] = SWITCHING_TOOLHEAD_SERVO_ANGLES;

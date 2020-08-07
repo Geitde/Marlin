@@ -55,6 +55,10 @@ void menu_motion();
 void menu_temperature();
 void menu_configuration();
 
+#if ENABLED(SWITCHING_TOOLHEAD_GEITPRINTER)
+void menu_geitprinter();
+#endif
+
 #if ENABLED(CUSTOM_USER_MENUS)
   void menu_user();
 #endif
@@ -174,6 +178,10 @@ void menu_main() {
   #endif
 
   SUBMENU(MSG_CONFIGURATION, menu_configuration);
+
+ #if ENABLED(SWITCHING_TOOLHEAD_GEITPRINTER)  /* we should do a proper define for this in the future */
+      SUBMENU_P( "GeitPrinter", menu_geitprinter );
+ #endif
 
   #if ENABLED(CUSTOM_USER_MENUS)
     #ifdef CUSTOM_USER_MENU_TITLE
