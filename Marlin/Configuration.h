@@ -272,7 +272,7 @@
 
   #define SWITCHING_TOOLHEAD_GEITPRINTER
 
-  #define GPTC_TOOLHEAD_DOCKINGBAY_Y_POS       334   // (mm) toolhead dock safe zone location
+  #define GPTC_TOOLHEAD_DOCKINGBAY_Y_POS      331 // 331 (mm) toolhead dock safe zone location
   #define GPTC_TOOLHEAD_DOCKINGBAY_X_POS     {38, 138, 238, 338 } // (mm) toolhead dock/undock starting point (mount point)
   #define GPTC_TOOLHEAD_DOCKINGBAY_TRAVEL       6000 // from outside to the docking bay safezone pos */
 
@@ -1201,15 +1201,15 @@
 // @section machine
 
 // The size of the print bed
-#define X_BED_SIZE 395
-#define Y_BED_SIZE 395
+#define X_BED_SIZE 388
+#define Y_BED_SIZE 332 //395
 
 // Travel limits (mm) after homing, corresponding to endstop positions.
 #define X_MIN_POS 0
 #define Y_MIN_POS 0
 #define Z_MIN_POS 0
 #define X_MAX_POS X_BED_SIZE
-#define Y_MAX_POS Y_BED_SIZE
+#define Y_MAX_POS 395 // Y_BED_SIZE
 #define Z_MAX_POS 450
 
 /**
@@ -1471,7 +1471,7 @@
 #endif
 
 // Homing speeds (mm/m)
-#define HOMING_FEEDRATE_XY (40*60)
+#define HOMING_FEEDRATE_XY (20*60)
 #define HOMING_FEEDRATE_Z  (4*60)
 
 // Validate that endstops are triggered on homing moves
@@ -1662,8 +1662,8 @@
 
   // Specify positions for each tool as { { X, Y, Z }, { X, Y, Z } }
   // Dual hotend system may use { {  -20, (Y_BED_SIZE / 2), (Z_MIN_POS + 1) },  {  420, (Y_BED_SIZE / 2), (Z_MIN_POS + 1) }}
-  #define NOZZLE_CLEAN_START_POINT { {   4, 290, (Z_MIN_POS + 1) } }
-  #define NOZZLE_CLEAN_END_POINT   { {  16, 245, (Z_MIN_POS + 1) } }
+  #define NOZZLE_CLEAN_START_POINT { {   3, 290, (Z_MIN_POS + 1) } }
+  #define NOZZLE_CLEAN_END_POINT   { {  15, 245, (Z_MIN_POS + 1) } }
 
   // Circular pattern radius
   #define NOZZLE_CLEAN_CIRCLE_RADIUS 6.5
@@ -1673,7 +1673,7 @@
   #define NOZZLE_CLEAN_CIRCLE_MIDDLE NOZZLE_CLEAN_START_POINT
 
   // Move the nozzle to the initial position after cleaning
-  #define NOZZLE_CLEAN_GOBACK
+  //#define NOZZLE_CLEAN_GOBACK
 
   // Enable for a purge/clean station that's always at the gantry height (thus no Z move)
   #define NOZZLE_CLEAN_NO_Z
@@ -1681,6 +1681,9 @@
   // Explicit wipe G-code script applies to a G12 with no arguments.
   //#define WIPE_SEQUENCE_COMMANDS "G1 X-17 Y25 Z10 F4000\nG1 Z1\nM114\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 Z15\nM400\nG0 X-10.0 Y-9.0"
 
+// G12 command with no args for GeitPrinter. 
+// We drive to X25, then Y245, start the wiping and go back to X25 for safety
+#define  WIPE_SEQUENCE_COMMANDS "G1 X25 F4000\nG1 Y245 F4000\nG12 T1 S1 P1\nG1 X25 F4000\n"
 #endif
 
 /**

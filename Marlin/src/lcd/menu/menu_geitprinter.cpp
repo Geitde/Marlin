@@ -415,6 +415,7 @@ static void gp_toolhead_mount( unsigned int toolhead )
     unsigned int i, maxy;
               float old_x = current_position.x;
               float old_y = current_position.y;
+              float tollerance = 0.25;
 
     #define UIBUFFER_SIZEOF 0x40
     char uibuffer[ UIBUFFER_SIZEOF ];
@@ -449,14 +450,14 @@ static void gp_toolhead_mount( unsigned int toolhead )
      /* approaching dock */
         sprintf_P( uibuffer, "aproaching dock %d", toolhead );
         ui.set_status( uibuffer );
-        current_position.x = toolheadposx[ toolhead ]; /* we need the plain extruder parking offset */
+        current_position.x = toolheadposx[ toolhead ] + tollerance; /* we need the plain extruder parking offset */
         current_position.y = toolheadposy;
         line_to_current_position( MMM_TO_MMS( GPTC_TOOLHEAD_DOCKINGBAY_TRAVEL ) );
 
      /* moving into the dock */
         sprintf_P( uibuffer, "entering dock %d", toolhead );
         ui.set_status( uibuffer );
-        current_position.x = toolheadposx[ toolhead ]; /* we need the plain extruder parking offset */
+        current_position.x = toolheadposx[ toolhead ] + tollerance; /* we need the plain extruder parking offset */
         current_position.y = toolheadposy + maxy;
         line_to_current_position( MMM_TO_MMS( GPTC_TOOLHEAD_DOCKINGBAY_TRAVEL / 10 ) );
 
@@ -471,7 +472,7 @@ static void gp_toolhead_mount( unsigned int toolhead )
      /* leaving dock */
         sprintf_P( uibuffer, "leaving dock %d", toolhead );
         ui.set_status( uibuffer );
-        current_position.x = toolheadposx[ toolhead ]; /* we need the plain extruder parking offset */
+        current_position.x = toolheadposx[ toolhead ] + tollerance; /* we need the plain extruder parking offset */
         current_position.y = toolheadposy;
         line_to_current_position( MMM_TO_MMS( GPTC_TOOLHEAD_DOCKINGBAY_TRAVEL / 10 ) );
 
